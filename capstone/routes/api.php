@@ -13,6 +13,38 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware('auth:api')->get('/quiz', function (Request $request) {
     return $request->user();
 });
+
+//Route::get('/question', function (Request $request) {
+//    ($request);
+//    App\Http\Controllers\QuestionsController::getQuestion();
+//    return View::make('question', array('name' => 'test'));
+//});
+
+//Route::get('/question', 'QuestionsController@getQuestion');
+//Route::get('/question', function()
+//{
+//    return 'test';
+////    return View::make('question', array('name' => 'test'));
+//});
+
+Route::get('/register', 'RegistrationController@create');
+Route::post('register', 'RegistrationController@store');
+
+Route::get('/login', 'SessionsController@create');
+Route::post('/login', 'SessionsController@store');
+Route::get('/logout', 'SessionsController@destroy');
+
+Route::get('/questions', 'QuestionsController@getQuestion');
+
+Route::post('/admin/save', 'AdminController@saveQuestion');
+
+//Route::post('/admin/save', function() {
+//
+//    var_dump('this works');
+//});
+
+
+

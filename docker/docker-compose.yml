@@ -7,6 +7,7 @@ services:
       dockerfile: docker/php/Dockerfile
     volumes:
       - ../capstone/:/var/www/html
+      - ./php/php7.1-fpm.conf:/etc/apache2/conf-available/php7.1-fpm.conf
     ports:
       - "8080:8080"
 
