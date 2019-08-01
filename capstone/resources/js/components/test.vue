@@ -68,6 +68,7 @@
                 for(var i = 0; i < this.questions.length; i++) {
                     console.log(typeof(this.questions[i].value))
                 }
+                alert('Questions saved!');
                 console.log(this.questions);
             }
         },
