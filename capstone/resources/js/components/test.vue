@@ -16,7 +16,7 @@
                 <span class="mr-2" :id="question.question_id + '_' + question.modifier">
                     {{question.questionName}}:
                 </span>
-                <div>
+                <b-form>
                     <span v-if="question.type === 'boolean'">
                         <b-form-group>
                               <b-form-radio v-model="question.value" name="true" value="1">True</b-form-radio>
@@ -24,13 +24,18 @@
                         </b-form-group>
                     </span>
                     <div v-else="question.type === 'custom'">
-                        <b-form-checkbox-group placeholder="Please select an option" v-model="question.value" :options="question.customOptions"></b-form-checkbox-group>
+                        <b-form-group>
+                            <b-form-checkbox-group v-model="question.value">
+                                <b-form-checkbox v-for="option in question.customOptions" :value="option.value + '_' + option.text">{{option.text}}</b-form-checkbox>
+                            </b-form-checkbox-group>
+                        </b-form-group>
                     </div>
 
-                </div>
+                </b-form>
             </div>
             <div class="flex-center row m-b-md">
-                <button @click="toggle">Go back</button>
+                <button @click="toggle" class="m-3">Go back</button>
+                <button @click="save" class="m-3">Save Response</button>
             </div>
         </div>
     </div>
@@ -57,6 +62,13 @@
                 }
 
                 return out;
+            },
+            save() {
+                let score = 0;
+                for(var i = 0; i < this.questions.length; i++) {
+                    console.log(typeof(this.questions[i].value))
+                }
+                console.log(this.questions);
             }
         },
         created() {
@@ -70,14 +82,12 @@
                         temp.type = response.data[i].type;
                         temp.modifier = response.data[i].modifier;
                         temp.customOptions = this.formatDropdown(JSON.parse(response.data[i].customOptions));
-                        temp.value = "";
+                        temp.value = response.data[i].type === 'custom' ? [] : "";
                         output.push(temp);
                     }
                     this.questions = output;
                 })
                 .catch(error => console.log(error))
-        },
-        computed: {
         }
     }
 </script>
